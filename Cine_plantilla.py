@@ -4,9 +4,9 @@ import datetime as dt
 import os
 import platform
 import pickle
-import lara
-import joan
-import clases
+import lara as l
+import joan as j
+import clases_generals as cg
 
 
 #==========================================================================================================
@@ -16,7 +16,7 @@ def mostra_menu() -> None:
     '''Mostra el menú principal. El primer punt no està implementat. Per a simplificar assumirem
     que tenim 2 cines amb dos sales cadascuna.'''
     while True:
-        cls('- MENÚ PRINCIPAL -')
+        cg.cls('- MENÚ PRINCIPAL -')
         print('------------------')
         print('1- Cines i sales (no implementat)')
         print('2- Manteniment de pel·lícules')
@@ -25,17 +25,17 @@ def mostra_menu() -> None:
         print()
 
         try:
-            opc = input_type('Opció?', intro_cancellar=False)
+            opc = cg.input_type('Opció?', intro_cancellar=False)
             if opc=='1':
                 pass                            # Opció no implementada
             elif opc=='2':
-                menu_pel_licules()
+                l.menu_pel_licules()
             elif opc=='3':
-                cine = selecciona_cine()
-                manteniment_sessions(cine)
+                cine = j.selecciona_cine()
+                j.manteniment_sessions(cine)
             elif opc=='4':
-                reserva_pel_licula()
-        except input_type_cancel·lat:
+                j.reserva_pel_licula()
+        except cg.input_type_cancel·lat:
             continue
 
 #==========================================================================================================
@@ -75,5 +75,5 @@ def mostra_menu() -> None:
 # Sessio(sala2_2,data2,p3,6)
 
 if __name__ == "__main__":
-    llig_arxiu()
+    cg.llig_arxiu()
     mostra_menu()

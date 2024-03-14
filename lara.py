@@ -1,7 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass
 import datetime as dt
-import clases
+import clases_generals as cg
 
 #==========================================================================================================
 # Manteniment de pel·lícules
@@ -26,13 +26,13 @@ def crea_pel_licula() -> None:
     '''
 
 #------------------------------------------------------------------------
-def busca_pel_licula(id: int) -> Pel_licula:
+def busca_pel_licula(id: int) -> cg.Pel_licula:
     ''' Busca una pel·lícula pel seu id en la llista de pel·lícules.
     Si la troba retorna la pel·lícula, sinó llança l'excepció 'pelicula_no_trobada'
     '''
 
 #------------------------------------------------------------------------
-def demana_pel_licula(txt:str) -> Pel_licula:
+def demana_pel_licula(txt:str) -> cg.Pel_licula:
     ''' Demana l'id d'una pel·lícula, la busca en la llista de pel·lícules i retorna la Pel·lícula.
     Si polsem intro llança l'excepció 'input_type_cancel·lat' 
     '''
@@ -45,7 +45,7 @@ def modifica_pel_licula() -> None:
     '''
 
 #------------------------------------------------------------------------
-def pel_licula_utilitzada_en_alguna_sessio(pel_licula:Pel_licula) -> bool:
+def pel_licula_utilitzada_en_alguna_sessio(pel_licula:cg.Pel_licula) -> bool:
     '''No podem esborrar una pel·lícula si hi ha una sessió en qualsevol sala que la projecta.
     Retorna True si alguna sala la projecta, False si no.
     '''
