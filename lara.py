@@ -1,6 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass
 import datetime as dt
+import clases
 
 #==========================================================================================================
 # Manteniment de pel·lícules
