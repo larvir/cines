@@ -20,7 +20,8 @@ class input_type_cancel·lat(Exception):
     pass
 class pel_licula_utilitzada_en_una_sessio(Exception):
     pass
-
+class Data_incorrecta(Exception):
+    pass
 #==========================================================================================================
 # VARIABLES GLOBALS
 #==========================================================================================================
@@ -160,13 +161,55 @@ def input_type(text:str, type:str='str', excepcio:bool=True, intro_cancellar:boo
     segons el valor del paràmetre excepcio generarà l'excepció 'input_type_cancel·lat' o retonarà el str ''.
     Al fer l'input mostra de manera automàtica el text (Intro=cancel·lar). Este text es pot ocultar amb el parametre intro_cancellar=False.
     '''
+    try:
+        while True:
+            mensage = 'Intro=cancel·lar' if intro_cancellar else ''
+
+            entrada = input(text + ' ' + mensage)
+
+            if entrada == '':
+                if excepcio:
+                    raise input_type_cancel·lat
+                
+                return ''
+
     
+            if type == 'str':
+                return entrada
+            elif type == 'int':
+                return int(entrada)
+            elif type == 'float':
+                return float(entrada)
+    
+    except ValueError:
+        print('Valor incorrecte')
+
 
 #------------------------------------------------------------------------
 def obtin_data() -> dt.date|None:
     ''' Pregunta a l'usuari una data. Verifica que es correcta i avisa si no ho és.
     Retorna una data o None si l'usuari no n'ha introduit cap (fa intro).
     '''
+    try:
+        while True:
+            data = dt.datetime.strptime(input_type('Quin any vols?(y/m/d)'), '%y/%m/%d')
+
+            if data < dt.date.today():
+                raise Data_incorrecta
+            
+            return data
+            
+    except Data_incorrecta:
+        print('La data es incorrecta')
+
+    except ValueError:
+        print('La data es incorrecta')
+
+    except input_type_cancel·lat:
+        return None
+    
+        
+
 
 #------------------------------------------------------------------------
 def obtin_data_hora() -> dt.datetime:
@@ -174,6 +217,29 @@ def obtin_data_hora() -> dt.datetime:
     Verifica que es la i l'hora són correctes i avisa si no ho és.
     Retorna el datetime corresponent. Si polsem intro llança l'excepció 'input_type_cancel·lat'
     '''
+    try:
+        while True:
+            data = obtin_data()
+
+            hora = dt.datetime.strptime(input_type('Quin any vols?(h:m)'), '%H/%M')
+
+
+            data_hora = dt.datetime.combine(data, hora)
+
+            if data_hora < dt.datetime.now():
+                raise Data_incorrecta
+            
+            return data
+            
+    except Data_incorrecta:
+        print('La data es incorrecta')
+
+    except ValueError:
+        print('La data es incorrecta')
+
+    except input_type_cancel·lat:
+        return None
+
 
 
 
