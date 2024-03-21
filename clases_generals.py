@@ -163,7 +163,7 @@ def input_type(text:str, type:str='str', excepcio:bool=True, intro_cancellar:boo
     '''
     try:
         while True:
-            mensage = 'Intro=cancel·lar' if intro_cancellar else ''
+            mensage = '(Intro=cancel·lar)' if intro_cancellar else ''
 
             entrada = input(text + ' ' + mensage)
 
@@ -265,3 +265,4 @@ def llig_arxiu() -> None:
     with open('arxiu.pkl', 'rb') as fd:
         pel_licules = pickle.load(fd)
         cines = pickle.load(fd)
+

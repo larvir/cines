@@ -9,6 +9,9 @@ import joan as j
 import clases_generals as cg
 
 
+
+
+
 #==========================================================================================================
 # Menú principal.
 #==========================================================================================================
@@ -73,6 +76,8 @@ def mostra_menu() -> None:
 # cg.Sessio(sala1_2,data2,p2,6)
 # cg.Sessio(sala2_2,data1,p3,5)
 # cg.Sessio(sala2_2,data2,p3,6)
+
+
 
 if __name__ == "__main__":
     cg.llig_arxiu()

@@ -10,12 +10,19 @@ def busca_cine(id: int) -> cg.Cine:
     ''' Busca un cine pel seu id en la llista de cines.
     Si ela troba retorna el cine, sinó llança l'excepció 'cine_no_trobat'
     '''
+    for cine in cg.cines:
+        if id == cine.id:
+            return cine
 
 
 #------------------------------------------------------------------------
 def mostra_cine_i_sales() -> None:
     ''' Mostra els cines (id i descripció) i les sales d'estos cines (id, descripció).
     '''
+    for cine in cg.cines:
+        print(f'CINE: ({cine.id}): {cine.descripcio}')
+        for sala in cine.sales:
+            print(f'   SALA ({sala.id}): sala {sala.id}')
 
 #------------------------------------------------------------------------
 def selecciona_cine() -> cg.Cine:
@@ -23,6 +30,19 @@ def selecciona_cine() -> cg.Cine:
     Demana un id de cine i el busca. Si el troba retorna el cine.
     Si polsem intro llança l'excepció 'input_type_cancel·lat'.
     '''
+    try:
+        while True:
+            id = cg.input_type('Selecciona un cine:','int')
+            return busca_cine(id)
+            
+            else:
+                print('No se ha trobat cap cine')
+    
+    except cg.input_type_cancel·lat():
+        pass
+
+
+
 
 #------------------------------------------------------------------------
 def demana_sessio(sala: cg.Sala) -> cg.Sessio:
@@ -46,6 +66,13 @@ def manteniment_sessions(cine: cg.Cine) -> None:
     Demana l'id d'una sala i mostra una menú amb les opciones de crear, modificar, esborrar i mantinedre les reserves
     per a esta sala seleccionada. 
     '''
+
+    while True:
+        cg.cls('- LLISTA DE CINES -\n---------------------------')
+        mostra_cine_i_sales()
+        cine = selecciona_cine()
+            
+
 
 #------------------------------------------------------------------------
 def mostra_sales_i_sessions(cine: cg.Cine) -> None:
