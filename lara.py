@@ -45,8 +45,9 @@ def demana_pel_licula(txt:str) -> cg.Pel_licula:
     Si polsem intro llança l'excepció 'input_type_cancel·lat' 
     '''
     try:
-        id = cg.input_type('Selecciona una pel.licula:','int')
-        return busca_pel_licula(id)
+        while True:
+            id = cg.input_type(txt,'int')
+            return busca_pel_licula(id)
     except cg.input_type_cancel·lat():
         pass
     except cg.pelicula_no_trobada():

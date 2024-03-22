@@ -224,7 +224,7 @@ def obtin_data_hora() -> dt.datetime:
             hora = dt.datetime.strptime(input_type('Quin any vols?(h:m)'), '%H:%M')
 
 
-            data_hora = dt.datetime.combine(data, hora)
+            data_hora = dt.datetime.combine(data.date(), hora.time())
 
             if data_hora < dt.datetime.now():
                 raise Data_incorrecta

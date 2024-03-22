@@ -179,7 +179,7 @@ def modifica_sessio(sala: cg.Sala) -> None:
             if not data_hora:
                 raise cg.input_type_cancel·lat
             sessio.data_hora = data_hora
-            sessio.pel_licula = l.demana_pel_licula()
+            sessio.pel_licula = l.demana_pel_licula('Selecciona una pel.licula:')
             sessio.preu_entrada = cg.input_type('Quin sera el preu', 'float')
     
     except cg.input_type_cancel·lat:
