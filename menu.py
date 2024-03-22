@@ -34,9 +34,7 @@ def mostra_menu() -> None:
             elif opc=='2':
                 l.menu_pel_licules()
             elif opc=='3':
-                cine = j.selecciona_cine()
-                if cine:
-                    j.manteniment_sessions(cine)
+                j.selecciona_cine()
             elif opc=='4':
                 j.reserva_pel_licula()
         except cg.input_type_cancel·lat:
