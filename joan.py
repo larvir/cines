@@ -31,25 +31,24 @@ def selecciona_cine() -> cg.Cine| None:
     Demana un id de cine i el busca. Si el troba retorna el cine.
     Si polsem intro llança l'excepció 'input_type_cancel·lat'.
     '''
-    try:
-        while True:
-            cg.cls('- LLISTA DE CINES -\n---------------------------')
-            mostra_cine_i_sales()
 
-            id = cg.input_type('Selecciona un cine:','int',False)
-            if id == '':
-                raise cg.input_type_cancel·lat
+    while True:
+        cg.cls('- LLISTA DE CINES -\n---------------------------')
+        mostra_cine_i_sales()
 
-            cine = busca_cine(id)
+        id = cg.input_type('Selecciona un cine:','int',False)
+        if id == '':
+            return None
 
-            if cine:
-                return cine
+        cine = busca_cine(id)
 
-            else:
-                print('No se ha trobat cap cine')
+        if cine:
+            return cine
+
+        else:
+            print('No se ha trobat cap cine')
     
-    except cg.input_type_cancel·lat():
-        return None
+
 
 
 
