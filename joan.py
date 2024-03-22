@@ -2,6 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import datetime as dt
 import clases_generals as cg
+import lara as l
 
 
 #==========================================================================================================
@@ -14,6 +15,7 @@ def busca_cine(id: int) -> cg.Cine:
     for cine in cg.cines:
         if id == cine.id:
             return cine
+    raise cg.cine_no_trobat
 
 
 #------------------------------------------------------------------------
@@ -26,28 +28,31 @@ def mostra_cine_i_sales() -> None:
             print(f'   SALA ({sala.id}): sala {sala.id}')
 
 #------------------------------------------------------------------------
-def selecciona_cine() -> cg.Cine| None:
+def selecciona_cine() -> None:
     '''Mostra una llista de cines i les seues sales.
     Demana un id de cine i el busca. Si el troba retorna el cine.
     Si polsem intro llança l'excepció 'input_type_cancel·lat'.
     '''
+    try:
+        while True:
+            cg.cls('- LLISTA DE CINES -\n---------------------------')
+            mostra_cine_i_sales()
 
-    while True:
-        cg.cls('- LLISTA DE CINES -\n---------------------------')
-        mostra_cine_i_sales()
+            id:int = cg.input_type('Selecciona un cine:','int')
 
-        id = cg.input_type('Selecciona un cine:','int',False)
-        if id == '':
-            return None
 
-        cine = busca_cine(id)
+            cine:cg.Cine = busca_cine(id)
 
-        if cine:
-            manteniment_sessions(cine)
+            if cine:
+                manteniment_sessions(cine)
 
-        else:
-            print('No se ha trobat cap cine')
-    
+            else:
+                print('No se ha trobat cap cine')
+
+    except cg.input_type_cancel·lat:
+        pass
+    except cg.cine_no_trobat():
+        print('No se ha trovat el cine')
 
 
 
@@ -58,6 +63,13 @@ def demana_sessio(sala: cg.Sala) -> cg.Sessio:
     ''' Demana l'id d'una sessió, la busca d'entre la llista de sessions de la sala i retorna la sala.
     Si no la troba llança l'excepció 'sessio_no_trobada'. Si polsem intro llança l'excepció 'input_type_cancel·lat'.
     '''
+
+    id:int = cg.input_type('Selecciona una sesió:','int')
+
+    for sessio in sala.sessions:
+        if id == sessio.id:
+            return sessio
+    raise cg.sessio_no_trobada
 
 #------------------------------------------------------------------------
 def demana_seient(sala: cg.Sala) -> tuple[int,int]:
@@ -75,8 +87,9 @@ def manteniment_sessions(cine: cg.Cine) -> None:
     Demana l'id d'una sala i mostra una menú amb les opciones de crear, modificar, esborrar i mantinedre les reserves
     per a esta sala seleccionada. 
     '''
-    while True:
-        try:
+    
+    try:
+        while True:
             cg.cls('- LLISTA DE SESSIONS -')
             mostra_sales_i_sessions(cine)
 
@@ -87,23 +100,21 @@ def manteniment_sessions(cine: cg.Cine) -> None:
                 print(f'MANTENIMENT DE SESSIONS: SALA({sala.id}) sala {sala.id}')
                 opcio = cg.input_type('1-Crea, 2-Modifica, 3-Esborra, 4-Reserves. Opció?','int')
                 if opcio == 1:
-                    crea_sessio()
+                    crea_sessio(sala)
                 elif opcio == 2:
-                    modifica_sessio()
+                    modifica_sessio(sala)
                 elif opcio == 3:
-                    esborra_sessio()
+                    esborra_sessio(sala)
                 elif opcio == 4:
-                    reserva_pel_licula()
+                    mateniment_reserves(cine,sala)
                 else:
                     print('Opció incorrecta')
         
-        except cg.input_type_cancel·lat():
-            pass
+    except cg.input_type_cancel·lat:
+        pass
+    except cg.sala_no_trobada():
+        print('No se ha trovat la sala')
 
-
-    
-
-            
 
 
 #------------------------------------------------------------------------
@@ -117,7 +128,7 @@ def mostra_sales_i_sessions(cine: cg.Cine) -> None:
         print('----------------------------------')
         print(f'SALA ({sala.id}): sala {sala.id}')
         for sessio in sala.sessions:
-            print(f'    SESSIÓ ({sessio.id}): {sessio.data_hora} {sessio.pel_licula} {sessio.preu_entrada}')
+            print(f'    SESSIÓ ({sessio.id}): {sessio.data_hora} {sessio.pel_licula.info} {sessio.preu_entrada}')
 
 
 
@@ -126,16 +137,34 @@ def demana_sala(cine: cg.Cine) -> cg.Sala:
     ''' Demana l'id d'un sala, la busca d'entre la llista de sales del cine i retorna la sala.
     Si no la troba llança l'excepció 'sala_no_trobada'. Si polsem intro llança l'excepció 'input_type_cancel·lat'
     '''
-    id = cg.input_type('Selecciona un cine:','int')
+    id:int = cg.input_type('Selecciona una sala:','int')
 
-    for sala in cine:
+    for sala in cine.sales:
         if id == sala.id:
             return sala
+    raise cg.sala_no_trobada
+        
+   
 #------------------------------------------------------------------------
 def crea_sessio(sala: cg.Sala) -> None:
     ''' Crea un objete sessió. Demana data y hora de la sessió, l'id de la pel·lícula que es projecta i el preu de l'entrada.
     La sessió s'afegix a llista de sessions de la sala que li passem. Si polsem intro eixim i es cancel·la la creació.
     '''
+    try:
+        while True:
+            data_hora = cg.obtin_data_hora()
+            if not data_hora:
+                raise cg.input_type_cancel·lat
+            pel_licula = l.demana_pel_licula()
+            preu_entrada = cg.input_type('Quin sera el preu', 'float')
+            cg.Sessio(sala,data_hora,pel_licula,preu_entrada)
+
+    except cg.input_type_cancel·lat:
+        pass
+
+
+
+
 #------------------------------------------------------------------------
 def modifica_sessio(sala: cg.Sala) -> None:
     ''' Modica una de les sessions de la sala que li passem.
@@ -143,6 +172,20 @@ def modifica_sessio(sala: cg.Sala) -> None:
     l'id de la pel·lícula que es projecta i el preu d'entrada. Es graven els canvis en disc.
     Si polsem intro es cancel·la la modificació de la sessió.
     '''
+    try:
+        while True:
+            sessio:cg.Sessio = demana_sessio(sala)
+            data_hora = cg.obtin_data_hora()
+            if not data_hora:
+                raise cg.input_type_cancel·lat
+            sessio.data_hora = data_hora
+            sessio.pel_licula = l.demana_pel_licula()
+            sessio.preu_entrada = cg.input_type('Quin sera el preu', 'float')
+    
+    except cg.input_type_cancel·lat:
+        pass
+    except cg.sessio_no_trobada():
+        print('No se ha trobat la sessio')
 
 #------------------------------------------------------------------------
 def esborra_sessio(sala: cg.Sala) -> None:
@@ -150,11 +193,27 @@ def esborra_sessio(sala: cg.Sala) -> None:
     Demana l'id d'una sessio i la busca en la sala. A continuació l'esborra. Es graven els canvis en disc.
     Si polsem intro es cancel·la l'esborrat de la sessió.
     '''
+    try:
+        while True:
+            sessio = demana_sessio(sala)
+            sala.sessions.remove(sessio)
+    
+    except cg.input_type_cancel·lat:
+        pass
+    except cg.sessio_no_trobada():
+        print('No se ha trobat la sessio')
 
 #------------------------------------------------------------------------
 def demana_dades_reserva() -> cg.Reserva:
     ''' Demna un dni i crea una Reseerva amb ell. Retorna la reserva.
     '''
+    try:
+        while True:
+            dni = cg.input_type('Quin es el teu dni')
+            return cg.Reserva(dni)
+
+    except cg.input_type_cancel·lat:
+        pass
 
 
 #------------------------------------------------------------------------

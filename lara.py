@@ -31,11 +31,30 @@ def busca_pel_licula(id: int) -> cg.Pel_licula:
     Si la troba retorna la pel·lícula, sinó llança l'excepció 'pelicula_no_trobada'
     '''
 
+    for pel_licula in cg.pel_licules:
+        if id == pel_licula.id:
+            return pel_licula
+            
+    raise cg.pelicula_no_trobada
+    
+
+
 #------------------------------------------------------------------------
 def demana_pel_licula(txt:str) -> cg.Pel_licula:
     ''' Demana l'id d'una pel·lícula, la busca en la llista de pel·lícules i retorna la Pel·lícula.
     Si polsem intro llança l'excepció 'input_type_cancel·lat' 
     '''
+    try:
+        id = cg.input_type('Selecciona una pel.licula:','int')
+        return busca_pel_licula(id)
+    except cg.input_type_cancel·lat():
+        pass
+    except cg.pelicula_no_trobada():
+        pass
+
+
+        
+    print('No se ha trovat la pel·licula')
 
 #------------------------------------------------------------------------
 def modifica_pel_licula() -> None:

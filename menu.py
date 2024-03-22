@@ -78,6 +78,8 @@ def mostra_menu() -> None:
 
 
 
+
+
 if __name__ == "__main__":
     cg.llig_arxiu()
     mostra_menu()

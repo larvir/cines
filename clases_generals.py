@@ -163,7 +163,7 @@ def input_type(text:str, type:str='str', excepcio:bool=True, intro_cancellar:boo
     '''
     try:
         while True:
-            mensage = '(Intro=cancel·lar)' if intro_cancellar else ''
+            mensage = '(Intro=cancel·lar) ' if intro_cancellar else ''
 
             entrada = input(mensage + text + ' ')
 
@@ -192,9 +192,9 @@ def obtin_data() -> dt.date|None:
     '''
     try:
         while True:
-            data = dt.datetime.strptime(input_type('Quin any vols?(y/m/d)'), '%y/%m/%d')
+            data = dt.datetime.strptime(input_type('Quin any vols?(d/m/y)'), '%d/%m/%y')
 
-            if data < dt.date.today():
+            if data < dt.datetime.today():
                 raise Data_incorrecta
             
             return data
@@ -221,7 +221,7 @@ def obtin_data_hora() -> dt.datetime:
         while True:
             data = obtin_data()
 
-            hora = dt.datetime.strptime(input_type('Quin any vols?(h:m)'), '%H/%M')
+            hora = dt.datetime.strptime(input_type('Quin any vols?(h:m)'), '%H:%M')
 
 
             data_hora = dt.datetime.combine(data, hora)
