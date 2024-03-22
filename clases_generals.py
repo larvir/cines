@@ -165,7 +165,7 @@ def input_type(text:str, type:str='str', excepcio:bool=True, intro_cancellar:boo
         while True:
             mensage = '(Intro=cancel·lar)' if intro_cancellar else ''
 
-            entrada = input(text + ' ' + mensage)
+            entrada = input(mensage + text + ' ')
 
             if entrada == '':
                 if excepcio:

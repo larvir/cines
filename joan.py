@@ -3,6 +3,7 @@ from dataclasses import dataclass
 import datetime as dt
 import clases_generals as cg
 
+
 #==========================================================================================================
 # Reserves
 #==========================================================================================================
@@ -25,21 +26,30 @@ def mostra_cine_i_sales() -> None:
             print(f'   SALA ({sala.id}): sala {sala.id}')
 
 #------------------------------------------------------------------------
-def selecciona_cine() -> cg.Cine:
+def selecciona_cine() -> cg.Cine| None:
     '''Mostra una llista de cines i les seues sales.
     Demana un id de cine i el busca. Si el troba retorna el cine.
     Si polsem intro llança l'excepció 'input_type_cancel·lat'.
     '''
     try:
         while True:
-            id = cg.input_type('Selecciona un cine:','int')
-            return busca_cine(id)
-            
+            cg.cls('- LLISTA DE CINES -\n---------------------------')
+            mostra_cine_i_sales()
+
+            id = cg.input_type('Selecciona un cine:','int',False)
+            if id == '':
+                raise cg.input_type_cancel·lat
+
+            cine = busca_cine(id)
+
+            if cine:
+                return cine
+
             else:
                 print('No se ha trobat cap cine')
     
     except cg.input_type_cancel·lat():
-        pass
+        return None
 
 
 
@@ -66,11 +76,34 @@ def manteniment_sessions(cine: cg.Cine) -> None:
     Demana l'id d'una sala i mostra una menú amb les opciones de crear, modificar, esborrar i mantinedre les reserves
     per a esta sala seleccionada. 
     '''
-
     while True:
-        cg.cls('- LLISTA DE CINES -\n---------------------------')
-        mostra_cine_i_sales()
-        cine = selecciona_cine()
+        try:
+            cg.cls('- LLISTA DE SESSIONS -')
+            mostra_sales_i_sessions(cine)
+
+
+            sala = demana_sala(cine)
+            
+            if sala:
+                print(f'MANTENIMENT DE SESSIONS: SALA({sala.id}) sala {sala.id}')
+                opcio = cg.input_type('1-Crea, 2-Modifica, 3-Esborra, 4-Reserves. Opció?','int')
+                if opcio == 1:
+                    crea_sessio()
+                elif opcio == 2:
+                    modifica_sessio()
+                elif opcio == 3:
+                    esborra_sessio()
+                elif opcio == 4:
+                    reserva_pel_licula()
+                else:
+                    print('Opció incorrecta')
+        
+        except cg.input_type_cancel·lat():
+            pass
+
+
+    
+
             
 
 
@@ -80,12 +113,25 @@ def mostra_sales_i_sessions(cine: cg.Cine) -> None:
     A continuació, mostra informaciño de les sales del cine (id i descripció) i de cadascuna de les
     seues sessions (id, data y hora, info de la pel·licula y el preu).
     '''
+    print(f'Cine({cine.id}): {cine.descripcio}')
+    for sala in cine.sales:
+        print('----------------------------------')
+        print(f'SALA ({sala.id}): sala {sala.id}')
+        for sessio in sala.sessions:
+            print(f'    SESSIÓ ({sessio.id}): {sessio.data_hora} {sessio.pel_licula} {sessio.preu_entrada}')
+
+
+
 #------------------------------------------------------------------------
 def demana_sala(cine: cg.Cine) -> cg.Sala:
     ''' Demana l'id d'un sala, la busca d'entre la llista de sales del cine i retorna la sala.
     Si no la troba llança l'excepció 'sala_no_trobada'. Si polsem intro llança l'excepció 'input_type_cancel·lat'
     '''
+    id = cg.input_type('Selecciona un cine:','int')
 
+    for sala in cine:
+        if id == sala.id:
+            return sala
 #------------------------------------------------------------------------
 def crea_sessio(sala: cg.Sala) -> None:
     ''' Crea un objete sessió. Demana data y hora de la sessió, l'id de la pel·lícula que es projecta i el preu de l'entrada.
