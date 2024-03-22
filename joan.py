@@ -43,7 +43,7 @@ def selecciona_cine() -> cg.Cine| None:
         cine = busca_cine(id)
 
         if cine:
-            return cine
+            manteniment_sessions(cine)
 
         else:
             print('No se ha trobat cap cine')
