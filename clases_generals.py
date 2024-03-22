@@ -27,6 +27,7 @@ class Data_incorrecta(Exception):
 #==========================================================================================================
 pel_licules:list[Pel_licula] = []
 cines:list[Cine] = []
+msg_error:str = ''
 
 #==========================================================================================================
 # CLASSES
@@ -186,13 +187,13 @@ def input_type(text:str, type:str='str', excepcio:bool=True, intro_cancellar:boo
 
 
 #------------------------------------------------------------------------
-def obtin_data() -> dt.date|None:
+def obtin_data(txt: str = 'Quina data vols?(d/m/y)', intro_cancelar: bool = True) -> dt.date|None:
     ''' Pregunta a l'usuari una data. Verifica que es correcta i avisa si no ho és.
     Retorna una data o None si l'usuari no n'ha introduit cap (fa intro).
     '''
     try:
         while True:
-            data = dt.datetime.strptime(input_type('Quin any vols?(d/m/y)'), '%d/%m/%y')
+            data = dt.datetime.strptime(input_type(txt, intro_cancellar=intro_cancelar), '%d/%m/%y')
 
             if data < dt.datetime.today():
                 raise Data_incorrecta
@@ -217,8 +218,9 @@ def obtin_data_hora() -> dt.datetime:
     Verifica que es la i l'hora són correctes i avisa si no ho és.
     Retorna el datetime corresponent. Si polsem intro llança l'excepció 'input_type_cancel·lat'
     '''
-    try:
-        while True:
+    while True:
+        try:
+            print(msg_error)
             data = obtin_data()
 
             hora = dt.datetime.strptime(input_type('Quin any vols?(h:m)'), '%H:%M')
@@ -231,14 +233,14 @@ def obtin_data_hora() -> dt.datetime:
             
             return data
             
-    except Data_incorrecta:
-        print('La data es incorrecta')
+        except Data_incorrecta:
+            msg_error = 'La data es incorrecta'
 
-    except ValueError:
-        print('La data es incorrecta')
+        except ValueError:
+            msg_error = 'La data es incorrecta'
 
-    except input_type_cancel·lat:
-        return None
+        except input_type_cancel·lat:
+            return None
 
 
 

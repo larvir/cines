@@ -48,9 +48,9 @@ def demana_pel_licula(txt:str) -> cg.Pel_licula:
         while True:
             id = cg.input_type(txt,'int')
             return busca_pel_licula(id)
-    except cg.input_type_cancel·lat():
+    except cg.input_type_cancel·lat:
         pass
-    except cg.pelicula_no_trobada():
+    except cg.pelicula_no_trobada:
         pass
 
 
