@@ -220,8 +220,10 @@ def obtin_data_hora() -> dt.datetime:
     '''
     while True:
         try:
-            print(msg_error)
+
             data = obtin_data()
+            if not data:
+                raise input_type_cancel·lat
 
             hora = dt.datetime.strptime(input_type('Quin any vols?(h:m)'), '%H:%M')
 
@@ -234,13 +236,12 @@ def obtin_data_hora() -> dt.datetime:
             return data
             
         except Data_incorrecta:
-            msg_error = 'La data es incorrecta'
+            print('La data es incorrecta')
 
         except ValueError:
-            msg_error = 'La data es incorrecta'
+            print('La data es incorrecta')
 
-        except input_type_cancel·lat:
-            return None
+
 
 
 

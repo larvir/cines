@@ -18,6 +18,9 @@ def mostra_pel_licules() -> None:
     ''' Mostra informació de la llista de pel·lícules (id y info)
     '''
 
+    for pel_licula in cg.pel_licules:
+        print(f'({pel_licula.id}): {pel_licula.info}')
+
 
 #------------------------------------------------------------------------
 def crea_pel_licula() -> None:
@@ -44,14 +47,12 @@ def demana_pel_licula(txt:str) -> cg.Pel_licula:
     ''' Demana l'id d'una pel·lícula, la busca en la llista de pel·lícules i retorna la Pel·lícula.
     Si polsem intro llança l'excepció 'input_type_cancel·lat' 
     '''
-    try:
-        while True:
+    while True:
+        try:
             id = cg.input_type(txt,'int')
             return busca_pel_licula(id)
-    except cg.input_type_cancel·lat:
-        pass
-    except cg.pelicula_no_trobada:
-        pass
+        except cg.pelicula_no_trobada:
+            break
 
 
         
