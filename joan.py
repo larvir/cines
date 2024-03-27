@@ -138,7 +138,7 @@ def mostra_sales_i_sessions(cine: cg.Cine) -> None:
         print('----------------------------------')
         print(f'SALA ({sala.id}): sala {sala.id}')
         for sessio in sala.sessions:
-            print(f'    SESSIÓ ({sessio.id}): {sessio.data_hora} {sessio.pel_licula.info} {sessio.preu_entrada.real}')
+            print(f'    SESSIÓ ({sessio.id}): {sessio.data_hora} {sessio.pel_licula.info} {sessio.preu_entrada.real}€')
 
 
 
@@ -159,6 +159,9 @@ def crea_sessio(sala: cg.Sala) -> None:
     while True:
         try:
             data_hora = cg.obtin_data_hora()
+            print('')
+            l.mostra_pel_licules()
+            print('')
             pel_licula = l.demana_pel_licula('Selecciona una pel.licula:')
             preu_entrada = cg.input_type('Quin sera el preu', 'float')
             cg.Sessio(sala,data_hora,pel_licula,preu_entrada)
