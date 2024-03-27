@@ -225,7 +225,7 @@ def obtin_data_hora() -> dt.datetime:
             if not data:
                 raise input_type_cancel·lat
 
-            hora = dt.datetime.strptime(input_type('Quin any vols?(h:m)'), '%H:%M')
+            hora = dt.datetime.strptime(input_type('Quina hora vols?(h:m)'), '%H:%M')
 
 
             data_hora = dt.datetime.combine(data.date(), hora.time())
