@@ -191,8 +191,8 @@ def obtin_data(txt: str = 'Quina data vols?(d/m/y)', intro_cancelar: bool = True
     ''' Pregunta a l'usuari una data. Verifica que es correcta i avisa si no ho és.
     Retorna una data o None si l'usuari no n'ha introduit cap (fa intro).
     '''
-    try:
-        while True:
+    while True:
+        try:
             data = dt.datetime.strptime(input_type(txt, intro_cancellar=intro_cancelar), '%d/%m/%y')
 
             if data < dt.datetime.today():
@@ -200,14 +200,13 @@ def obtin_data(txt: str = 'Quina data vols?(d/m/y)', intro_cancelar: bool = True
             
             return data
             
-    except Data_incorrecta:
-        print('La data es incorrecta')
 
-    except ValueError:
-        print('La data es incorrecta')
-
-    except input_type_cancel·lat:
-        return None
+        except input_type_cancel·lat:
+            return None
+        except Data_incorrecta:
+            print('La data es incorrecta')
+        except ValueError:
+            print('La data es incorrecta')
     
         
 
@@ -233,13 +232,13 @@ def obtin_data_hora() -> dt.datetime:
             if data_hora < dt.datetime.now():
                 raise Data_incorrecta
             
-            return data
+            return data_hora
             
         except Data_incorrecta:
-            print('La data es incorrecta')
+            print('La hora es incorrecta')
 
         except ValueError:
-            print('La data es incorrecta')
+            print('La hora es incorrecta')
 
 
 

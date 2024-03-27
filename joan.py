@@ -200,6 +200,7 @@ def modifica_sessio(sala: cg.Sala) -> None:
         except cg.sessio_no_trobada:
             cg.msg_error = 'No se ha trobat la sessio'
 
+
 #------------------------------------------------------------------------
 def esborra_sessio(sala: cg.Sala) -> None:
     ''' Esborra una de les sessions de la sala que li passem.
@@ -308,7 +309,8 @@ def busca_sessions_on_vore_pel_licula(pel_licula: cg.Pel_licula, data:dt.datetim
                             sessions.append(Resultat(cine, sala, sessio))
                     else:
                         sessions.append(Resultat(cine, sala, sessio))
-                         
+    if not sessions:
+        raise cg.sessio_no_trobada    
     return sessions
 #------------------------------------------------------------------------
 def selecciona_sessio_on_vore_pel_licula(pel_licula: cg.Pel_licula, data:dt.date|None) -> tuple[cg.Sala,cg.Sessio]:
@@ -318,20 +320,24 @@ def selecciona_sessio_on_vore_pel_licula(pel_licula: cg.Pel_licula, data:dt.date
     '''
     while True:
 
-        cg.cls(' SELECCIONA UNA SESSIÓ ')
-        print(cg.msg_error)
-        cg.msg_error = ''
-        sessions = busca_sessions_on_vore_pel_licula(pel_licula,data)
-        for resultat in sessions:
-            print(f'({resultat.sessio.id}): {resultat.cine.descripcio}, sala {resultat.sala.id}. SESSIÓ {resultat.sessio.id}\n       {resultat.sessio.data_hora}, {resultat.sessio.preu_entrada}€')
+        try:
+            cg.cls(' SELECCIONA UNA SESSIÓ ')
+            print(cg.msg_error)
+            cg.msg_error = ''
+            sessions = busca_sessions_on_vore_pel_licula(pel_licula,data)
+
+            for resultat in sessions:
+                print(f'({resultat.sessio.id}): {resultat.cine.descripcio}, sala {resultat.sala.id}. SESSIÓ {resultat.sessio.id}\n       {resultat.sessio.data_hora}, {resultat.sessio.preu_entrada}€')
             
-        id = cg.input_type('Selecciona una sessio','int')
+            id = cg.input_type('Selecciona una sessio','int')
 
-        for resultat in sessions:
-            if resultat.sessio.id == id:
-                return (resultat.sala, resultat.sessio)
-        cg.msg_error = 'No existeix la sessio seleccionada' 
+            for resultat in sessions:
+                if resultat.sessio.id == id:
+                    return (resultat.sala, resultat.sessio)
+            cg.msg_error = 'No existeix la sessio seleccionada' 
 
+        except cg.sessio_no_trobada:
+            cg.msg_error = 'No se ha trobat ninguna sala'
 
        
 
