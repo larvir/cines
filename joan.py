@@ -188,6 +188,9 @@ def modifica_sessio(sala: cg.Sala) -> None:
             sessio:cg.Sessio = demana_sessio(sala)
             data_hora = cg.obtin_data_hora()
             sessio.data_hora = data_hora
+            print('')
+            l.mostra_pel_licules()
+            print('')
             sessio.pel_licula = l.demana_pel_licula('Selecciona una pel.licula:')
             sessio.preu_entrada = cg.input_type('Quin sera el preu', 'float')
             cg.input_type('Fet. Intro per a continuar', intro_cancellar= False)
